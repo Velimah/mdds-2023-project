@@ -1,6 +1,6 @@
 "use strict";
 
-require ('dotenv').config();
+require('dotenv').config();
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const routes = require('./database/routes/routes');
@@ -10,7 +10,7 @@ const http = require('http').createServer(app);
 const cors = require('cors');
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use('/api', routes);
 const io = require("socket.io")(http, {
   cors: {
@@ -19,10 +19,8 @@ const io = require("socket.io")(http, {
   }
 });
 
-app.use(express.static('public'));
-
 // MongoDB section
-const mongoString = process.env.DATABASE_URL
+const mongoString = process.env.DATABASE_URL;
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
@@ -63,12 +61,12 @@ const deleteUserById = (socketId) => {
 
 io.on('connection', (socket) => {
   console.log('user is connected', socket.id);
-  // sends user list to all users on conncect
+  // sends user list to all users on connect
   io.emit('user list', users);
 
   // adds user to users array and refreshes user list
   socket.on('join', (username) => {
-    users.push({username: username, id: socket.id});
+    users.push({ username: username, id: socket.id });
     io.emit('user list', users);
   });
 
@@ -103,7 +101,7 @@ io.on('connection', (socket) => {
     }
 
     // constructs message object and pushes it to rooms array
-    const message = {userId:socket.id, room:msg.room, user:user.username, message:msg.message, time:formattedTime}
+    const message = { userId: socket.id, room: msg.room, user: user.username, message: msg.message, time: formattedTime };
     rooms[msg.room].push(message);
 
     // sends message to all users in the same room
@@ -111,7 +109,15 @@ io.on('connection', (socket) => {
   });
 });
 
+// Serve the index.html file for the root URL ("/")
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
+// Serve static files from the 'public' folder
+app.use(express.static('public'));
+
+// Start the server
 http.listen(port, () => {
   console.log(`listening on port:${port}`);
 });
