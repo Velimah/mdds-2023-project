@@ -1,6 +1,5 @@
 "use strict";
 
-const url = 'https://mdds-2023-project.vercel.app';
 const form = document.getElementById('registerForm');
 
 const dialogSuccess = document.getElementById("modal1");
@@ -26,7 +25,7 @@ form.addEventListener('submit', async (evt) => {
   };
 
   try {
-  const response = await fetch(url + '/api/register', fetchOptions);
+  const response = await fetch(api/register', fetchOptions);
   const json = await response.json();
     console.log("testi", json);
   if (!response.ok) {
