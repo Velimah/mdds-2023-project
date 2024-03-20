@@ -8,6 +8,7 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const cors = require('cors');
+const path = require('path'); // Import path module
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -109,13 +110,13 @@ io.on('connection', (socket) => {
   });
 });
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Serve the index.html file for the root URL ("/")
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-// Serve static files from the 'public' folder
-app.use(express.static('public'));
 
 // Start the server
 http.listen(port, () => {
