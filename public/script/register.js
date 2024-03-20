@@ -1,6 +1,6 @@
 "use strict";
 
-const url = 'http://localhost:3000';
+const url = 'https://mdds-2023-project.vercel.app';
 const form = document.getElementById('registerForm');
 
 const dialogSuccess = document.getElementById("modal1");
