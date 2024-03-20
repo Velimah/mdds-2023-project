@@ -25,7 +25,7 @@ form.addEventListener('submit', async (evt) => {
   };
 
   try {
-  const response = await fetch(api/register', fetchOptions);
+  const response = await fetch('api/register', fetchOptions);
   const json = await response.json();
     console.log("testi", json);
   if (!response.ok) {
